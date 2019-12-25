@@ -1,0 +1,19 @@
+#play {
+  position: relative;
+  left: -20px;
+}
+
+#select.center {
+  position: absolute;
+  left: -20px;
+}
+
+input#right.right {
+  position: absolute;
+  left: 100px;
+  top: 150px;
+}
+
+input {
+  width: 100%;
+}

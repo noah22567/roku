@@ -3,22 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Easy Remote</title>
+    <link rel="stylesheet" href="css/styles.css">
     <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <!--    <script type="text/javascript" src="js/script.js"></script>-->
 </head>
 
 <body>
-    <input type="button" value="power" onclick="postCommand(this.value)"></input>
-    <input type="button" value="home" onclick="postCommand(this.value)"></input>
-    <input type="button" value="up" onclick="postCommand(this.value)"></input>
-    <input type="button" value="down" onclick="postCommand(this.value)"></input>
-    <input type="button" value="left" onclick="postCommand(this.value)"></input>
-    <input type="button" value="right" onclick="postCommand(this.value)"></input>
-    <input type="button" value="play" onclick="postCommand(this.value)"></input>
-    <input type="button" value="select" onclick="postCommand(this.value)"></input>
-    <input type="button" value="mute" onclick="postCommand(this.value)"></input>
-    <input type="button" value="volumeup" onclick="postCommand(this.value)"></input>
-    <input type="button" value="volumedown" onclick="postCommand(this.value)"></input>
+    <input id="power" type="button" value="power" onclick="postCommand(this.value)">
+    <input id="home" type="button" value="home" onclick="postCommand(this.value)">
+    <input id="up" type="button" value="up" onclick="postCommand(this.value)">
+    <input id="down" type="button" value="down" onclick="postCommand(this.value)">
+    <input id="left" type="button" value="left" onclick="postCommand(this.value)">
+    <input id="right" type="button" value="right" onclick="postCommand(this.value)">
+    <input id="play" type="button" value="play" onclick="postCommand(this.value)">
+    <input id="select" type="button" value="select" onclick="postCommand(this.value)">
+    <input id="mute" type="button" value="mute" onclick="postCommand(this.value)">
+    <input id="volumeup" type="button" value="volumeup" onclick="postCommand(this.value)">
+    <input id="volumedown" type="button" value="volumedown" onclick="postCommand(this.value)">
+    <input id="back" type="button" value="back" onclick="postCommand(this.value)">
 
     <input type="search" id="app-search" placeholder="launch app">
 
@@ -33,6 +35,8 @@
                 }
            });
         };
+
+
 
         $("input#app-search").click(function(value){
             console.log(value)});

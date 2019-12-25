@@ -1,9 +1,4 @@
-from django.views.generic import TemplateView
-from .my_roku import post_command as rc
 # Create your views here.
-
-from django.views.generic.base import View
-from django.shortcuts import render
 
 from django.http import HttpResponse
 from django.template import loader
