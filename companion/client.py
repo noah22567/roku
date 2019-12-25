@@ -9,9 +9,8 @@ def client():
     isOnline = True
     sock.connect(server_address)
     while True:
-        # try:
-        # command = myCommand()
-        command = input('type command')
+        command = myCommand().lower()
+        # command = input('type command')
         message = {"command": command}
         if 'go offline' in message['command']:
                 isOnline=False
@@ -41,6 +40,6 @@ def client():
         else:
             print("another go around the world")
             continue
-        # except:
-        #     continue
-client()
+
+if __name__=="__main__":
+    client()
