@@ -31,7 +31,7 @@ class DeviceCommands(models.Model):
                ("DELETE", "DELETE"),
                ("UPDATE", "UPDATE")]
 
-    device_model = models.ManyToManyField(DevicesModel) #, related_name='command')
+    device_model = models.ManyToManyField(DevicesModel, related_name='commands')
     command = models.CharField(max_length=15)
     endpoint = models.CharField(max_length=100, unique=True)
     method = models.CharField(max_length=10, choices=methods)

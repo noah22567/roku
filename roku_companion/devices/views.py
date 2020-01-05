@@ -29,14 +29,12 @@ class DeviceCommandsList(ListCreateAPIView):
     # lookup_url_kwarg =
 
     def get_queryset(self):
-        queryset_list = DeviceCommands.objects.all()
-        # query = self.request.GET
+        query = self.request.GET
+        if query:
+            device_model = query.get('device_model')
+            command = query.get('command')
+            queryset = DevicesModel.objects.get(device_model=device_model).commands.filter(command=command)
+            return queryset
 
-                
-        # if self.request.GET:
-        #     queryset = queryset_list.filter(device_model="rokuTV")
-        # else:
-        #     queryset = queryset_list
-        #
-        # return queryset
+
 
