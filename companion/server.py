@@ -1,7 +1,7 @@
 import socket
 from companion.packages.utils import gen_response, handle_command
 
-server_address = ('localhost', 8350)
+server_address = ('localhost', 8090)
 
 
 def serve(server_address):
@@ -16,10 +16,10 @@ def serve(server_address):
         try:
             while True:
                 data = connection.recv(1024)
-                if len(data) > 10:
+                if len(data) > 1:
                     print("Received request: {}".format(data.decode('utf-8')))
-                    connection.sendall(b'{"status":200,"message":"Successfully received request."}')
-                    print("Sent Success message to client {}".format(client_address))
+                    # connection.sendall(b'{"status":200,"message":"Successfully received request."}')
+                    # print("Sent Success message to client {}".format(client_address))
                     command = handle_command(data,client_address)
                     print("Command successfully executed ")# takes data from client returns endpoints for command
                     if command == SyntaxError.__name__:

@@ -1,7 +1,7 @@
 import requests
 import json
 from companion.packages.mongo_requests import get_device, get_command
-import time
+from requests import Request, Session
 
 def message_to_json(msg):#both
     if type(msg) == bytes:
@@ -34,21 +34,15 @@ def handle_response(sock):
         if data['status']:
             if data['status'] == 200:
                 if 'command' in data.keys():
-                    return data['command']
-                else:
-                    return True
+                    return data
             elif data['status'] == 422:#incorrect format
                 return False
             elif data['status'] == 408:#timed out
                     return False
             elif data['status'] == 500:#internal error
                     return False
-
-    # elif time.time()-start_time > 1:
-    #     return "TimedOut"
     else:
         return False
-        # return "IncorrectResponse"
 
 def handle_command(data,client_ip):#server
     try:
@@ -76,21 +70,30 @@ def handle_command(data,client_ip):#server
     except:
         return "InternalError"
 
-def execute_command(command,device_ip):#client
+def execute_command(response):#client
+    # will take json
 
     print("Executing command")
-    print(command)
-    req = requests.Session()
+    print(response)
+    ses = requests.Session()
+    device_ip = response['device_ip']
+    device_port = response['device_port']
     def send_command(**kwargs):
-
+        prepped = None
         if kwargs['method'].lower() == 'get':
-            req = Request('GET', kwargs['command']['device_ip']+kwargs['command']['url'])
-
+            req = Request('GET', "http://"+device_ip+':'+device_port+'/'+kwargs['endpoint'])
+            prepped = req.prepare()
 
         elif kwargs['method'].lower() == 'post':
-            req = Request('post', kwargs['command']['device_ip']+kwargs['command']['url'], data=body)
+            req = Request('POST', "http://"+device_ip+':'+device_port+'/'+kwargs['endpoint'])
+            prepped = req.prepare()
+            try:
+                if kwargs['body']:
+                    prepped.body = kwargs['body']
+            except KeyError:
+                pass
+        return ses.send(prepped)
 
-
-
-    for step in command:
+    for step in response['command']:
+        print(step)
         send_command(**step)

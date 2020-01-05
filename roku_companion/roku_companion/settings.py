@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
-    'roku_remote'
+    'roku_remote',
+    'rest_framework',
+    'devices',
 ]
 
 MIDDLEWARE = [
@@ -75,13 +77,28 @@ WSGI_APPLICATION = 'roku_companion.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django_mongodb_engine',
+#         # 'ENFORCE_SCHEMA': False,
+#         'NAME': 'companion',
+#         'HOST': 'localhost'
+#         # 'PORT': 27017,
+#         # 'USER': 'admin',
+#         # 'PASSWORD': 'password'
+#     }
+# }
+DATABASES = {
+   'default' : {
+      'ENGINE' : 'djongo',
+      'NAME' : 'companion_live',
+        'HOST': 'mongodb+srv://admin:password2256@cluster0-mpvdy.mongodb.net/test?retryWrites=true&w=majority',
+        'PORT': 27017,
+        # 'USER': 'admin',
+        # 'PASSWORD': 'password'
+   }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -100,6 +117,15 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
 
 
 # Internationalization

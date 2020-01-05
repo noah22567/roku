@@ -22,8 +22,8 @@ def myCommand():
 
     with sr.Microphone() as source:
         print('Ready...')
-        capture.pause_threshold = 1
-        capture.adjust_for_ambient_noise(source, duration=1)
+        # capture.pause_threshold = 5
+        # capture.adjust_for_ambient_noise(source, duration=1)
         audio = capture.listen(source)
 
     try:
@@ -38,3 +38,4 @@ def myCommand():
     return command
 
 
+# myCommand()
