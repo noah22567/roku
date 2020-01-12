@@ -17,15 +17,11 @@ def words():
         os.chdir("//home//noah//Desktop//Funstuff//ml//data//collection")
         name = os.listdir(os.getcwd())
         if name != []:
-            name = list(map(int,name))
-            replace(".csv", "")
-            pd.DataFrame({"verb":words}).to_csv(str(max(name)+1)+".csv")
-        else:
-            pd.DataFrame({"verb":words}).to_csv("1.csv")
+            test = os.path.splitext(os.getcwd())
 
 
-words()
-
+#######
+searc
 
 
 

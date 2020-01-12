@@ -6,10 +6,33 @@
 # all words have a value
 # verb and nouns
 #
+################################
 # verbs with similiar processes are grouped
-# means k
+# k means
+# words and their meanings
 #
+# however having a one to many relationship would be counterproductive
+# so how?
+# words and their meaning value
+# 1
+# phrases and words relationship to the value
+# ex. (turnon),(on),(power on)
+# (playfull),("energetic")
+# this allows us to use pattern rec along with clustering methods moving forward
+
+
+####### mongodb  ########
+# id
+# synonyms []
 #
+# what we hope to get from clustering these are their euclydian values
+# with these values will be a feature for decsion tree
+# most likley will have the highest correlation
+
+
+
+
+#########
 # decision tree regression
 # prediction action(command)
 #
