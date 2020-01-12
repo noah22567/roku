@@ -31,7 +31,6 @@ class DeviceCommands(models.Model):
                ("DELETE", "DELETE"),
                ("UPDATE", "UPDATE")]
 
-    # device_model = models.ManyToManyField(DevicesModel, related_name='commands')
     device_model = models.ForeignKey(DevicesModel,unique=False,on_delete=models.CASCADE,related_name='commands')
     command = models.CharField(max_length=15)
     endpoint = models.CharField(max_length=100, unique=True)
@@ -39,9 +38,8 @@ class DeviceCommands(models.Model):
     body = models.CharField(max_length=200, blank=True)
 
 
-# may be able to use something other than many to many to protect from mixing of user data
-class ClientDevices(models.Model):  # devices connected to client_
-    user = models.ManyToManyField(User, related_name="find_client")  # now you can lookup client devices using client
+class ClientDevices(models.Model):
+    user = models.ManyToManyField(User, related_name="client_device_list")  # now you can lookup client devices using client
     device_name = models.CharField(max_length=15)
     device_model = models.ManyToManyField(DevicesModel)
     device_ip = models.GenericIPAddressField()
