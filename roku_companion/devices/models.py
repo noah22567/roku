@@ -31,7 +31,7 @@ class DeviceCommands(models.Model):
                ("DELETE", "DELETE"),
                ("UPDATE", "UPDATE")]
 
-    device_model = models.ForeignKey(DevicesModel, unique=False, on_delete=models.CASCADE, related_query_name='commands')
+    device_model = models.ForeignKey(DevicesModel, unique=False, on_delete=models.CASCADE, related_name='commands')
     command = models.CharField(max_length=15)
     endpoint = models.CharField(max_length=100, unique=True)
     method = models.CharField(max_length=10, choices=methods)
