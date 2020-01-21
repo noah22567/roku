@@ -37,43 +37,56 @@ class ReturnCommand(ListCreateAPIView):
     model = serializer_class.Meta.model
 
     def get_queryset(self):
-        client_id,command = self.request.GET.all()
-        self.handle_something()
-
-
-    def handle_something(self):
-        command = self.request.data['command'].split(" ")
+        # client_ip = self.request.GET.get('client_ip')#### correctly grab values
+        # command = self.request.Get.get('command')
+        command = self.request.data['command']
         client_ip = self.request.data['client_ip']
+        client = Client.objects.get(client_ip=client_ip)
+        device = self.get_device_model(client, command)
+        device_command = self.get_command(device, command)
 
-        client = Client.objects.get(client_ip = client_ip)
-        device = self.get_device(client,command)
+        return device_command
 
+
+    ## some day you can use synonyms to teat for this =)
     def get_command(self,device,user_command):
         import operator
         dic_list = {}
-        indexed = []
-        command_list = DevicesModel.objects.get(device_model = device).client_device_list
-        for word in user_command:
+        indexed = {}
+        device = DevicesModel.objects.get(device_model = device)
+        command_list = device.objects
+        print(command_list)
+        for word in user_command.split(" "):
             for command in command_list:
                 if word in command.command:
-                    dic_list[command.command] += command
-                    indexed.append({"command":command.command,"length":len(word)})
-        max_command =
-        return dic_list['max_command']
+                    dic_list[command.command] = command
+                    indexed[command.command] += len(word)
+        max_command = max(indexed.items(), key=operator.itemgetter(1))[0]
+        return dic_list[max_command]
 
-
-    def get_device(self,client,command):
+## some day you can use synonyms to teat for this =)
+    def get_device_model(self,client,command):
         import operator
-        dic_list = {}
 
-        for device in client.client_device_list.all():
-            for key in device.keys():
-                for word in command:
-                    if word in key:
-                        dic_list[key] +=1
+        possible_devices = {}
 
-        device = max(dic_list.items(), key=operator.itemgetter(1))[0]
-        return device.device_model
+        for word in command.split(" "):
+            for client_device in client.client_device_list.all():
+                dev = DevicesModel.objects.get(client_device=client_device)
+                if word in dev.device_model:
+                    if (dev.device_model in possible_devices.keys()):
+                        possible_devices[dev.device_model] += 1
+                    else:
+                        possible_devices[dev.device_model] = 1
+
+                elif word in client_device.device_name:
+                    if (dev.device_model in possible_devices.keys()):
+                        possible_devices[dev.device_model] += 1
+                    else:
+                        possible_devices[dev.device_model] = 1
+
+        return max(possible_devices.items(), key=operator.itemgetter(1))[0]
+
 
 
 
