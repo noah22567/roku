@@ -1,14 +1,32 @@
 from django.db import models
 from django.contrib.auth.models import User
+from rest_framework_api_key.models import AbstractAPIKey
 
 
-# Create your models here.
-
-# save database space by extending user class
+# save database space by extending user class or nah to sep diff users or maybe groups?
 class Client(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="testUser")
-    client_ip = models.GenericIPAddressField()
-    # command_preferences = models.ManyToManyField(CommandsList)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="Client")
+    client_id = models.GenericIPAddressField()
+
+
+class ComClient(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="ComClient")
+
+
+class ComClientAPIKey(AbstractAPIKey):
+    organization = models.ForeignKey(
+        ComClient,
+        on_delete=models.CASCADE,
+        related_name="api_keys",
+    )
+
+
+class ClientAPIKey(AbstractAPIKey):
+    organization = models.ForeignKey(
+        Client,
+        on_delete=models.CASCADE,
+        related_name="api_keys",
+    )
 
 
 class DevicesModel(models.Model):
@@ -16,15 +34,7 @@ class DevicesModel(models.Model):
     device_model = models.CharField(max_length=15, unique=True)
 
 
-# class CommandsList(models.Model):
-# created_by = models.ForeignKey(User, unique=False, on_delete=models.CASCADE)
-# subscribers = models.ManyToManyField(User, related_name="Sublist", blank=True)
-# device_model = models.ManyToManyField(DevicesModel, unique=False)
-# firmware = models.CharField(max_length=15, blank=True)
-
-
 class DeviceCommands(models.Model):
-    # device_model = models.ForeignKey(devices_model,on_delete=models.CASCADE)
     methods = [("POST", "POST"),
                ("PUT", "PUT"),
                ("GET", "GET"),

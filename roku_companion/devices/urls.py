@@ -6,6 +6,6 @@ from .views import ClientDeviceView, DevicesListView, DeviceCommandsList, Return
 urlpatterns = [
     re_path(r'client-devices/(?P<user>\w+)/', ClientDeviceView.as_view()),
     path("devices/", DevicesListView.as_view()),
-    re_path(r'devices/command/', DeviceCommandsList.as_view()),
+    path('devices/command/', DeviceCommandsList.as_view()),
     path('user/command/', ReturnCommand.as_view())
 ]
