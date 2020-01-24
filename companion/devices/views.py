@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate, login
 from .models import Client, ClientDevices, DevicesModel, DeviceCommands
 from django.db.models import Q
 from rest_framework.permissions import IsAuthenticated
@@ -5,6 +6,7 @@ from rest_framework_api_key.permissions import HasAPIKey
 from .serializer import ClientDeviceSerializer, DevicesSerializer, CommandSerializer
 from rest_framework.generics import RetrieveAPIView, ListAPIView, ListCreateAPIView
 from rest_framework_api_key.models import APIKey
+from django.shortcuts import render_to_response
 
 
 # will have to create queryset
@@ -13,6 +15,11 @@ class ClientDeviceView(RetrieveAPIView):
     serializer_class = ClientDeviceSerializer
     model = serializer_class.Meta.model
     lookup_field = "client"
+
+    def get_queryset(self):
+        client_id = self.request.data("client_id")
+        client = Client.objects.get(pk=client_id)
+        return client.client_device_list.all()
 
 
 class DevicesListView(ListAPIView):
@@ -52,7 +59,7 @@ class ReturnCommand(ListCreateAPIView):
         device_command = self.get_command(device, command)
         return device_command
 
-    # some day you can use synonyms to teat for this =)
+    # some day you can use synonyms to choose for this =)
     def get_command(self, device, user_command):
         import operator
         dic_list = {}
@@ -91,3 +98,21 @@ class ReturnCommand(ListCreateAPIView):
                         possible_devices[dev.device_model] = 1
 
         return max(possible_devices.items(), key=operator.itemgetter(1))[0]
+
+
+def user_login(request):
+    msg = []
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                msg.append("login successful")
+            else:
+                msg.append("disabled account")
+        else:
+            msg.append("invalid login")
+    return render_to_response('login.html', {'errors': msg})
+
