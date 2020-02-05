@@ -1,0 +1,5 @@
+This is a simple mvp.
+
+Run the client and server. Client will send voice commands 
+over to the server and respond with a command for the client to execute.
+
