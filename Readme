@@ -1,3 +1,3 @@
-This is a simple controller for roku devices built on django. Go to the roku directory to run the server.
+This is a simple controller for roku devices built on django. Go to the roku_companion directory to run the server.
 
 Also there is a voice activated controller option in the companion directory.
